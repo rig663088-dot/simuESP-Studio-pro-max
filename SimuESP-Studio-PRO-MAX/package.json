@@ -1,0 +1,32 @@
+{
+  "name": "simuesp-studio-pro-max",
+  "version": "1.0.0",
+  "description": "SimuESP Studio PRO MAX - simulador electrónico multiplataforma",
+  "main": "desktop/main.cjs",
+  "author": "",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "electron .",
+    "desktop:pack": "electron-builder --dir",
+    "desktop:dist": "electron-builder",
+    "android:init": "cap add android",
+    "android:sync": "cap sync android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.4.3",
+    "@capacitor/core": "^7.4.3"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.4.3",
+    "electron": "^37.2.6",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.simuesp.studio.promax",
+    "productName": "SimuESP Studio PRO MAX",
+    "directories": { "output": "release" },
+    "files": ["index.html", "desktop/**/*", "package.json"],
+    "win": { "target": ["nsis", "portable"] },
+    "nsis": { "oneClick": false, "allowToChangeInstallationDirectory": true }
+  }
+}
