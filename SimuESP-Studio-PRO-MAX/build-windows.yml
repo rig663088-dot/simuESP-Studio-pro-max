@@ -1,20 +1,39 @@
-name: Build Windows app
+name: Build Windows
+
 on:
   workflow_dispatch:
   push:
-    tags: ['v*']
+    paths:
+      - "SimuESP-Studio-PRO-MAX/**"
+
 jobs:
   build:
     runs-on: windows-latest
+
+    defaults:
+      run:
+        working-directory: SimuESP-Studio-PRO-MAX
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Descargar proyecto
+        uses: actions/checkout@v4
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
-      - run: npm install
-      - run: npm run desktop:dist
-      - uses: actions/upload-artifact@v4
+
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Crear instalador
+        run: npm run build:windows
+
+      - name: Guardar instalador
+        uses: actions/upload-artifact@v4
         with:
           name: SimuESP-Windows
-          path: release/*
+          path: |
+            SimuESP-Studio-PRO-MAX/dist/*.exe
+            SimuESP-Studio-PRO-MAX/dist/*.zip
+          if-no-files-found: error
